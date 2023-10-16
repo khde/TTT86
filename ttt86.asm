@@ -150,148 +150,16 @@ check_winner:
     push rbp
     mov rbp, rsp
 
-    mov rax, field_mask
-    cmp [rax], byte P1
-    jne .p1_2
-
-    mov rax, field_mask
-    add rax, POS2
-    cmp [rax], byte P1
-    jne .p1_2
-
-    mov rax, field_mask
-    add rax, POS3
-    cmp [rax], byte P1
-    jne .p1_2
-
-    jmp .p1_v
-
-.p1_2:
-    mov rax, field_mask
-    add rax, POS4
-    cmp [rax], byte P1
-    jne .p1_3
-
-    mov rax, field_mask
-    add rax, POS5
-    cmp [rax], byte P1
-    jne .p1_3
-
-    mov rax, field_mask
-    add rax, POS6
-    cmp [rax], byte P1
-    jne .p1_3
-
-    jmp .p1_v
-
-.p1_3:
-    mov rax, field_mask
-    add rax, POS7
-    cmp [rax], byte P1
-    jne .p1_4
-
-    mov rax, field_mask
-    add rax, POS8
-    cmp [rax], byte P1
-    jne .p1_4
-
-    mov rax, field_mask
-    add rax, POS9
-    cmp [rax], byte P1
-    jne .p1_4
-
-    jmp .p1_v
-
-.p1_4:
-    mov rax, field_mask
-    add rax, POS1
-    cmp [rax], byte P1
-    jne .p1_5
-
-    mov rax, field_mask
-    add rax, POS4
-    cmp [rax], byte P1
-    jne .p1_5
-
-    mov rax, field_mask
-    add rax, POS7
-    cmp [rax], byte P1
-    jne .p1_5
-
-    jmp .p1_v
-
-.p1_5:
-    mov rax, field_mask
-    add rax, POS2
-    cmp [rax], byte P1
-    jne .p1_6
-
-    mov rax, field_mask
-    add rax, POS5
-    cmp [rax], byte P1
-    jne .p1_6
-
-    mov rax, field_mask
-    add rax, POS8
-    cmp [rax], byte P1
-    jne .p1_6
-
-    jmp .p1_v
-
-.p1_6:
-    mov rax, field_mask
-    add rax, POS3
-    cmp [rax], byte P1
-    jne .p1_7
-
-    mov rax, field_mask
-    add rax, POS6
-    cmp [rax], byte P1
-    jne .p1_7
-
-    mov rax, field_mask
-    add rax, POS9
-    cmp [rax], byte P1
-    jne .p1_7
-
-    jmp .p1_v
-
-.p1_7:
-    mov rax, field_mask
-    add rax, POS1
-    cmp [rax], byte P1
-    jne .p1_8
-
-    mov rax, field_mask
-    add rax, POS5
-    cmp [rax], byte P1
-    jne .p1_8
-
-    mov rax, field_mask
-    add rax, POS9
-    cmp [rax], byte P1
-    jne .p1_8
-
-    jmp .p1_v
-
-.p1_8:
-    mov rax, field_mask
-    add rax, POS3
-    cmp [rax], byte P1
-    jne .p1_done
-
-    mov rax, field_mask
-    add rax, POS5
-    cmp [rax], byte P1
-    jne .p1_done
-
-    mov rax, field_mask
-    add rax, POS7
-    cmp [rax], byte P1
-    jne .p1_done
-
-.p1_v:
     call draw_field
+
+    mov rdi, P1
+    call checking_winner
+    cmp rax, 0x1
+    jne .p2
+
+    clearscreen
+    call draw_field
+    mov r15, 0x1
 
     mov rax, 0x1
     mov rdi, 0x1
@@ -300,153 +168,17 @@ check_winner:
     syscall
 
     mov r15, 0x1
+    jmp .exit
 
-.p1_done:
+.p2
+    mov rdi, P2
+    call checking_winner
+    cmp rax, 0x1
+    jne .exit
 
-    mov rax, field_mask
-    cmp [rax], byte P2
-    jne .p2_2
-
-    mov rax, field_mask
-    add rax, POS2
-    cmp [rax], byte P2
-    jne .p2_2
-
-    mov rax, field_mask
-    add rax, POS3
-    cmp [rax], byte P2
-    jne .p2_2
-
-    jmp .p2_v
-
-.p2_2:
-    mov rax, field_mask
-    add rax, POS4
-    cmp [rax], byte P2
-    jne .p2_3
-
-    mov rax, field_mask
-    add rax, POS5
-    cmp [rax], byte P2
-    jne .p2_3
-
-    mov rax, field_mask
-    add rax, POS6
-    cmp [rax], byte P2
-    jne .p2_3
-
-    jmp .p2_v
-
-.p2_3:
-    mov rax, field_mask
-    add rax, POS7
-    cmp [rax], byte P2
-    jne .p2_4
-
-    mov rax, field_mask
-    add rax, POS8
-    cmp [rax], byte P2
-    jne .p2_4
-
-    mov rax, field_mask
-    add rax, POS9
-    cmp [rax], byte P2
-    jne .p2_4
-
-    jmp .p2_v
-
-.p2_4:
-    mov rax, field_mask
-    add rax, POS1
-    cmp [rax], byte P2
-    jne .p2_5
-
-    mov rax, field_mask
-    add rax, POS4
-    cmp [rax], byte P2
-    jne .p2_5
-
-    mov rax, field_mask
-    add rax, POS7
-    cmp [rax], byte P2
-    jne .p2_5
-
-    jmp .p2_v
-
-.p2_5:
-    mov rax, field_mask
-    add rax, POS2
-    cmp [rax], byte P2
-    jne .p2_6
-
-    mov rax, field_mask
-    add rax, POS5
-    cmp [rax], byte P2
-    jne .p2_6
-
-    mov rax, field_mask
-    add rax, POS8
-    cmp [rax], byte P2
-    jne .p2_6
-
-    jmp .p2_v
-
-.p2_6:
-    mov rax, field_mask
-    add rax, POS3
-    cmp [rax], byte P2
-    jne .p2_7
-
-    mov rax, field_mask
-    add rax, POS6
-    cmp [rax], byte P2
-    jne .p2_7
-
-    mov rax, field_mask
-    add rax, POS9
-    cmp [rax], byte P2
-    jne .p2_7
-
-    jmp .p2_v
-
-.p2_7:
-    mov rax, field_mask
-    add rax, POS1
-    cmp [rax], byte P2
-    jne .p2_8
-
-    mov rax, field_mask
-    add rax, POS5
-    cmp [rax], byte P2
-    jne .p2_8
-
-    mov rax, field_mask
-    add rax, POS9
-    cmp [rax], byte P2
-    jne .p2_8
-
-    jmp .p2_v
-
-.p2_8:
-    mov rax, field_mask
-    add rax, POS3
-    cmp [rax], byte P2
-    jne .p2_done
-
-    mov rax, field_mask
-    add rax, POS5
-    cmp [rax], byte P2
-    jne .p2_done
-
-    mov rax, field_mask
-    add rax, POS7
-    cmp [rax], byte P2
-    jne .p2_done
-
-.p2_v:
     clearscreen
-
     call draw_field
+    mov r15, 0x1
 
     mov rax, 0x1
     mov rdi, 0x1
@@ -454,9 +186,164 @@ check_winner:
     mov rdx, p2v_len
     syscall
 
-    mov r15, 0x1
+.exit
+    leave
+    ret
 
-.p2_done:
+
+; rdi: player char
+checking_winner:
+    push rbp
+    mov rbp, rsp
+
+    mov rax, field_mask
+    cmp [eax], dil
+    jne .l2
+
+    mov rax, field_mask
+    add rax, POS2
+    cmp [rax], dil
+    jne .l2
+
+    mov rax, field_mask
+    add rax, POS3
+    cmp [rax], dil
+    jne .l2
+
+    jmp .win
+
+.l2:
+    mov rax, field_mask
+    add rax, POS4
+    cmp [rax], dil
+    jne .l3
+
+    mov rax, field_mask
+    add rax, POS5
+    cmp [rax], dil
+    jne .l3
+
+    mov rax, field_mask
+    add rax, POS6
+    cmp [rax], dil
+    jne .l3
+
+    jmp .win
+
+.l3:
+    mov rax, field_mask
+    add rax, POS7
+    cmp [rax], dil
+    jne .l4
+
+    mov rax, field_mask
+    add rax, POS8
+    cmp [rax], dil
+    jne .l4
+
+    mov rax, field_mask
+    add rax, POS9
+    cmp [rax], dil
+    jne .l4
+
+    jmp .win
+
+.l4:
+    mov rax, field_mask
+    add rax, POS1
+    cmp [rax], dil
+    jne .l5
+
+    mov rax, field_mask
+    add rax, POS4
+    cmp [rax], dil
+    jne .l5
+
+    mov rax, field_mask
+    add rax, POS7
+    cmp [rax], dil
+    jne .l5
+
+    jmp .win
+
+.l5:
+    mov rax, field_mask
+    add rax, POS2
+    cmp [rax], dil
+    jne .l6
+
+    mov rax, field_mask
+    add rax, POS5
+    cmp [rax], dil
+    jne .l6
+
+    mov rax, field_mask
+    add rax, POS8
+    cmp [rax], dil
+    jne .l6
+
+    jmp .win
+
+.l6:
+    mov rax, field_mask
+    add rax, POS3
+    cmp [rax], dil
+    jne .l7
+
+    mov rax, field_mask
+    add rax, POS6
+    cmp [rax], dil
+    jne .l7
+
+    mov rax, field_mask
+    add rax, POS9
+    cmp [rax], dil
+    jne .l7
+
+    jmp .win
+
+.l7:
+    mov rax, field_mask
+    add rax, POS1
+    cmp [rax], dil
+    jne .l8
+
+    mov rax, field_mask
+    add rax, POS5
+    cmp [rax], dil
+    jne .l8
+
+    mov rax, field_mask
+    add rax, POS9
+    cmp [rax], dil
+    jne .l8
+
+    jmp .win
+
+.l8:
+    mov rax, field_mask
+    add rax, POS3
+    cmp [rax], dil
+    jne .done
+
+    mov rax, field_mask
+    add rax, POS5
+    cmp [rax], dil
+    jne .done
+
+    mov rax, field_mask
+    add rax, POS7
+    cmp [rax], dil
+    jne .done
+
+.win:
+    mov rax, 0x1
+    jmp .exit
+
+.done:
+    mov rax, 0x0
+
+.exit:
     leave
     ret
 
@@ -470,6 +357,7 @@ draw_field:
     lea rsi, [field_mask]
     mov rdx, field_mask_len
     syscall
+
     leave
-    ret 
+    ret
 
