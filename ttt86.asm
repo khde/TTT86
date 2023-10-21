@@ -170,7 +170,7 @@ check_winner:
     mov r15, 0x1
     jmp .exit
 
-.p2
+.p2:
     mov rdi, P2
     call checking_winner
     cmp rax, 0x1
@@ -186,7 +186,7 @@ check_winner:
     mov rdx, p2v_len
     syscall
 
-.exit
+.exit:
     leave
     ret
 
